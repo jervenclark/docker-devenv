@@ -1,19 +1,26 @@
 version: "3"
 
 services:
-  web:
-    container_name: "${PROJECT_NAME}-web-server"
-    build: ./dockerfiles/web-server
-    # links:
-    #   - "db-mongo:db-mongo"
-    #   - "db-mysql:db-mysql"
+  nginx:
+    container_name: "${PROJECT_NAME}-nginx"
+    build: ./dockerfiles/nginx
     ports:
       - 8080:80
+    volumes:
+      - ./src/status:/projects/status
+    links:
+        - php
 
-  db:
-    container_name: "${PROJECT_NAME}-db-server"
-    build: ./dockerfiles/database-server
+  mysql:
+    container_name: "${PROJECT_NAME}-mysql"
+    build: ./dockerfiles/mysql
     ports:
       - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
+
+  php:
+    container_name: "${PROJECT_NAME}-php"
+    build: ./dockerfiles/php-fpm
+    volumes:
+        - ./src/status:/projects/status
