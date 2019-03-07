@@ -8,21 +8,30 @@ Vagrant.configure("2") do |config|
   # vagrant plugin install vagrant-env
   config.env.enable
 
-  # Configure database server
-  config.vm.define :db do |dbs|
-    dbs.vm.provider :docker do |d|
-      d.build_dir = "dockerfiles/database-server"
-      d.name      = "#{ENV['PROJECT_NAME']}-db-server"
-      d.ports     = ["3306:3306"]
+
+  # Configure php-fpm
+  config.vm.define :php do |php|
+    php.vm.provider :docker do |d|
+      d.build_dir = ".docker/php-fpm"
+      d.name      = "#{ENV['PROJECT_NAME']}-php"
     end
   end
 
-  # Configure web server
-  config.vm.define :web do |wbs|
-    wbs.vm.provider :docker do |d|
-      d.build_dir = "dockerfiles/web-server"
-      d.name      = "#{ENV['PROJECT_NAME']}-web-server"
+  # Configure nginx
+  config.vm.define :web do |nginx|
+    nginx.vm.provider :docker do |d|
+      d.build_dir  = ".docker/nginx"
+      d.name      = "#{ENV['PROJECT_NAME']}-nginx"
       d.ports     = ["8080:80"]
+    end
+  end
+
+  # Configure mysql
+  config.vm.define :db do |mysql|
+    mysql.vm.provider :docker do |d|
+      d.build_dir = ".docker/mysql"
+      d.name      = "#{ENV['PROJECT_NAME']}-mysql"
+      d.ports     = ["3306:3306"]
     end
   end
 
