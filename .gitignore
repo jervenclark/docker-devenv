@@ -1,4 +1,4 @@
-
+/src
+/.docker/nginx/conf.d
 .vagrant
-
 .env

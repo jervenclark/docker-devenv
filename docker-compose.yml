@@ -5,7 +5,9 @@ services:
     container_name: "${PROJECT_NAME}-php"
     build: ./.docker/php-fpm
     volumes:
-        - ./src/status:/projects/status
+      - ./src/status:/projects/status
+    ports:
+      - "9000:9000"
 
   nginx:
     container_name: "${PROJECT_NAME}-nginx"
@@ -13,7 +15,9 @@ services:
     ports:
       - 8080:80
     volumes:
+      - ./.docker/nginx/conf.d:/etc/nginx/conf.d
       - ./src/status:/projects/status
+      - ./src/wpfrp:/projects/wpfrp
     links:
         - php
 

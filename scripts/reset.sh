@@ -1,5 +1,4 @@
 #!/bin/sh
 
-DIR=$( cd $( dirname ${0} ) > /dev/null 2>&1 && pwd )
-cd $DIR/../.docker/nginx/files
-ls | grep -v default.conf | xargs rm
+cd $( cd $( dirname ${0} ) > /dev/null 2>&1 && pwd )
+ls ../.docker/nginx/conf.d | grep -v default.conf | xargs rm
