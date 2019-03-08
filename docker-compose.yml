@@ -5,7 +5,8 @@ services:
     container_name: "${PROJECT_NAME}-php"
     build: ./.docker/php-fpm
     volumes:
-      - ./src/status:/projects/status
+      - "${PROJECT_ROOT}:/projects"
+      - "./src/status:/usr/share/nginx/html"
     ports:
       - "9000:9000"
 
@@ -15,11 +16,11 @@ services:
     ports:
       - 8080:80
     volumes:
-      - ./.docker/nginx/conf.d:/etc/nginx/conf.d
-      - ./src/status:/projects/status
-      - ./src/wpfrp:/projects/wpfrp
+      - "./.docker/nginx/conf.d:/etc/nginx/conf.d"
+      - "./src/status:/usr/share/nginx/html"
+      - "${PROJECT_ROOT}:/projects"
     links:
-        - php
+      - php
 
   mysql:
     container_name: "${PROJECT_NAME}-mysql"
