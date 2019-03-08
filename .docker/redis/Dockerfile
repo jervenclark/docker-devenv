@@ -1,3 +1,3 @@
 FROM redis:5
 
-CMD ["redis-server"]
+CMD ["redis-server", "--appendonly", "yes"]
