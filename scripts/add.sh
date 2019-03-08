@@ -11,7 +11,7 @@ display_help() {
 
 generate_config() {
     cd ../.docker/nginx/conf.d
-    cp wpfrp.conf "${1}.conf"
+    cp template.conf.example "${1}.conf"
     sed -i '' "s/wpfrp/${1}/g" "${1}.conf"
 }
 
