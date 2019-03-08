@@ -1,6 +1,14 @@
 version: "3"
 
 services:
+  redis:
+    container_name: "${PROJECT_NAME}-redis"
+    build: ./.docker/redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - "./artifacts/redis:/data"
+
   php:
     container_name: "${PROJECT_NAME}-php"
     build: ./.docker/php-fpm
@@ -9,6 +17,8 @@ services:
       - "./src/status:/usr/share/nginx/html"
     ports:
       - "9000:9000"
+    links:
+      - redis
 
   nginx:
     container_name: "${PROJECT_NAME}-nginx"
